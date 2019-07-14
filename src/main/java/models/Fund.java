@@ -1,15 +1,18 @@
 package models;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
-@Table(name = "Fund", schema = "FundReports", catalog = "")
-public class FundEntity {
-    private int fundId;
+@Table(name = "Fund", schema = "FundReports")
+public class Fund {
     private String fundName;
 
     @Id
-    @Column(name = "fundId")
+    @Column(name = "fundId", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int fundId;
+
     public int getFundId() {
         return fundId;
     }
@@ -28,12 +31,24 @@ public class FundEntity {
         this.fundName = fundName;
     }
 
+    public Collection getFilings() {
+        return filings;
+    }
+
+    public void setFilings(Collection filings) {
+        this.filings = filings;
+    }
+
+    @OneToMany (mappedBy = "fund", targetEntity = Filing.class)
+    private Collection filings;
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FundEntity that = (FundEntity) o;
+        Fund that = (Fund) o;
 
         if (fundId != that.fundId) return false;
         if (fundName != null ? !fundName.equals(that.fundName) : that.fundName != null)

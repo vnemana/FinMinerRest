@@ -3,8 +3,8 @@ package models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Cusip", schema = "FundReports", catalog = "")
-public class CusipEntity {
+@Table(name = "Cusip", schema = "FundReports")
+public class Cusip {
     private String cusip;
     private String stock;
     private String companyName;
@@ -44,7 +44,7 @@ public class CusipEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CusipEntity that = (CusipEntity) o;
+        Cusip that = (Cusip) o;
 
         if (cusip != null ? !cusip.equals(that.cusip) : that.cusip != null)
             return false;

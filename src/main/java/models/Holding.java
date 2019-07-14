@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Holding", schema = "FundReports", catalog = "")
-public class HoldingEntity {
+public class Holding {
     private int holdingId;
     private String cusip;
     private String stock;
@@ -66,7 +66,7 @@ public class HoldingEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        HoldingEntity that = (HoldingEntity) o;
+        Holding that = (Holding) o;
 
         if (holdingId != that.holdingId) return false;
         if (Double.compare(that.position, position) != 0) return false;

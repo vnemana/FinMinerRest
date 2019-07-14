@@ -4,15 +4,17 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "Filing", schema = "FundReports", catalog = "")
-public class FilingEntity {
+@Table(name = "Filing", schema = "FundReports")
+public class Filing {
+    @Id
+    @Column(name = "filingId")
     private int filingId;
+
     private Date filingDate;
     private String filingType;
     private Date reportDate;
 
-    @Id
-    @Column(name = "filingId")
+
     public int getFilingId() {
         return filingId;
     }
@@ -51,12 +53,16 @@ public class FilingEntity {
         this.reportDate = reportDate;
     }
 
+    @ManyToOne (optional=false)
+    @JoinColumn(name = "fundId", referencedColumnName = "fundId")
+    private Fund fund;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FilingEntity that = (FilingEntity) o;
+        Filing that = (Filing) o;
 
         if (filingId != that.filingId) return false;
         if (filingDate != null ? !filingDate.equals(that.filingDate) : that.filingDate != null)
@@ -77,4 +83,13 @@ public class FilingEntity {
         result = 31 * result + (reportDate != null ? reportDate.hashCode() : 0);
         return result;
     }
+
+//    private Fund getFundEntity() {
+//        return fundEntity;
+//    }
+//
+//    public void setFundEntity(Fund fundEntity) {
+//        this.fundEntity = fundEntity;
+//    }
+
 }

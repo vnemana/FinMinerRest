@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<persistence xmlns="http://java.sun.com/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
-                    http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-             <persistence-unit name="FundReportsPersistence"
-                               transaction-type="JTA">
-                 <class>models.CusipEntity</class>
-                 <class>models.FilingEntity</class>
-                 <class>models.FundEntity</class>
-                 <class>models.HoldingEntity</class>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+                 version="2.1">
+
+             <persistence-unit name="FundReportsPersistence">
+                 <jta-data-source>jdbc/MySQLFundReports</jta-data-source>
+                 <class>models.Cusip</class>
+                 <class>models.Filing</class>
+                 <class>models.Fund</class>
+                 <class>models.Holding</class>
                  <properties>
-                     <property name="javax.persistence.jdbc.driver"
-                               value="com.jdbc.mysql.driver"/>
-                     <property name="javax.persistence.jdbc.url"
-                               value="jdbc:mysql:@localhost:3306/FundReports"/>
-                     <property name="javax.persistence.jdbc.user" value="root"/>
-                     <property name="javax.persistence.jdbc.password"
-                               value="goldpen62"/>
                      <property name="eclipselink.jdbc.url"
                                value="jdbc:mysql://localhost:3306/FundReports"/>
                      <property name="eclipselink.jdbc.driver"
