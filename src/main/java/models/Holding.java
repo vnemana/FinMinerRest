@@ -3,7 +3,7 @@ package models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Holding", schema = "FundReports", catalog = "")
+@Table(name = "Holding", schema = "FundReports")
 public class Holding {
     private int holdingId;
     private String cusip;
@@ -73,10 +73,7 @@ public class Holding {
         if (numshares != that.numshares) return false;
         if (cusip != null ? !cusip.equals(that.cusip) : that.cusip != null)
             return false;
-        if (stock != null ? !stock.equals(that.stock) : that.stock != null)
-            return false;
-
-        return true;
+        return stock != null ? stock.equals(that.stock) : that.stock == null;
     }
 
     @Override

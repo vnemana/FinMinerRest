@@ -18,8 +18,7 @@ public class FundService {
     private EntityManager em;
 
     public List<Filing> getFilingsForFund(int fund) {
-        if (fund == 0)
-            fund = 3;
+        if (fund == 0) fund = 3;
         Fund f = em.find(Fund.class, 3);
         return (List<Filing>) f.getFilings();
     }
@@ -27,7 +26,7 @@ public class FundService {
     public List<Filing> getFilingsForFund(FundFilter fundFilter) {
         String whereClause = "";
         if (fundFilter.getFundId() > 0) {
-            if (whereClause.equals("")) whereClause += " where ";
+            whereClause += " where ";
             whereClause += " fi.fund.fundId = " + fundFilter.getFundId() + " ";
         }
 

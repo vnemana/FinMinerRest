@@ -3,9 +3,9 @@ package controllers;
 import java.util.Date;
 
 public class FundFilter {
-    int fundId;
-    Date startDate;
-    Date endDate;
+    private int fundId;
+    private Date startDate;
+    private Date endDate;
 
     public int getFundId() {
         return fundId;

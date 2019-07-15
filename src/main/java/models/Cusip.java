@@ -50,10 +50,7 @@ public class Cusip {
             return false;
         if (stock != null ? !stock.equals(that.stock) : that.stock != null)
             return false;
-        if (companyName != null ? !companyName.equals(that.companyName) : that.companyName != null)
-            return false;
-
-        return true;
+        return companyName != null ? companyName.equals(that.companyName) : that.companyName == null;
     }
 
     @Override

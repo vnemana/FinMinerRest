@@ -9,53 +9,48 @@ public class Filing {
     @Id
     @Column(name = "filingId")
     private int filingId;
-
-    private Date filingDate;
-    private String filingType;
-    private Date reportDate;
-
-
     public int getFilingId() {
         return filingId;
     }
-
     public void setFilingId(int filingId) {
         this.filingId = filingId;
     }
 
     @Basic
     @Column(name = "filingDate")
+    private Date filingDate;
     public Date getFilingDate() {
         return filingDate;
     }
-
     public void setFilingDate(Date filingDate) {
         this.filingDate = filingDate;
     }
 
     @Basic
     @Column(name = "filingType")
+    private String filingType;
     public String getFilingType() {
         return filingType;
     }
-
     public void setFilingType(String filingType) {
         this.filingType = filingType;
     }
 
     @Basic
     @Column(name = "reportDate")
+    private Date reportDate;
     public Date getReportDate() {
         return reportDate;
     }
-
     public void setReportDate(Date reportDate) {
         this.reportDate = reportDate;
     }
 
     @ManyToOne (optional=false)
-    @JoinColumn(name = "fundId", referencedColumnName = "fundId")
+    @JoinColumn(name="fundId", referencedColumnName = "fundId")
     private Fund fund;
+    public Fund getFund() {return fund;}
+    public void setFund(Fund fund) {this.fund = fund;}
 
     @Override
     public boolean equals(Object o) {
@@ -69,10 +64,7 @@ public class Filing {
             return false;
         if (filingType != null ? !filingType.equals(that.filingType) : that.filingType != null)
             return false;
-        if (reportDate != null ? !reportDate.equals(that.reportDate) : that.reportDate != null)
-            return false;
-
-        return true;
+        return reportDate != null ? reportDate.equals(that.reportDate) : that.reportDate == null;
     }
 
     @Override
