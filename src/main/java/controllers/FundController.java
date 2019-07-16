@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Filing;
+import models.Fund;
 import services.FundService;
 
 import javax.inject.Inject;
@@ -19,9 +20,11 @@ public class FundController {
     @Produces("application/json")
     public JsonArray getFilingsFromFund() {
         JsonArrayBuilder builder = Json.createArrayBuilder();
-        for (Filing f : fundService.getFilingsForFund(3)) {
-            builder.add(Json.createObjectBuilder().add("filingDate",
-                    f.getFilingDate().toString()));
+        for (Fund f : fundService.getAllFunds()) {
+            builder.add(Json.createObjectBuilder().add("fundId",
+                    f.getFundId()));
+            builder.add(Json.createObjectBuilder().add("fundName",
+                    f.getFundName()));
         }
         return builder.build();
     }

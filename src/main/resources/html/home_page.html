@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<p id="funds">Let AJAX get the funds.</p>
+<button type="button" onclick="loadFunds()">Load Funds</button>
+
+<script>
+    function loadFunds() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var s = JSON.parse(this.responseText);
+                var html_result =
+                    "<table style='width:100%'><tr><th>FundId</th><th>FundName</th></tr>";
+                var i = 0;
+                while(i < s.length) {
+                    html_result +=
+                        "<tr><td>"+s[i].fundId+"</td><td>"+s[i+1].fundName+"</td></tr>";
+                    i = i+2;
+                }
+                html_result += "</tr></table>";
+                document.getElementById("funds").innerHTML = html_result;
+            }
+        };
+        xhttp.open("GET", "api/funds/all", true);
+        xhttp.send();
+    }
+</script>
+
+</body>
+</html>

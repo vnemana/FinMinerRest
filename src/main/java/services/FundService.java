@@ -17,6 +17,12 @@ public class FundService {
     @PersistenceContext
     private EntityManager em;
 
+    public List<Fund> getAllFunds() {
+        TypedQuery<Fund> query = em.createQuery("select f from Fund f", Fund
+                .class);
+        return query.getResultList();
+    }
+
     public List<Filing> getFilingsForFund(int fund) {
         if (fund == 0) fund = 3;
         Fund f = em.find(Fund.class, 3);
