@@ -5,61 +5,42 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Holding", schema = "FundReports")
 public class Holding {
-    private int holdingId;
-    private String cusip;
-    private String stock;
-    private double position;
-    private int numshares;
 
     @Id
     @Column(name = "holdingId")
-    public int getHoldingId() {
-        return holdingId;
-    }
-
-    public void setHoldingId(int holdingId) {
-        this.holdingId = holdingId;
-    }
+    private int holdingId;
+    public int getHoldingId() { return holdingId; }
+    public void setHoldingId(int holdingId) { this.holdingId = holdingId; }
 
     @Basic
     @Column(name = "cusip")
-    public String getCusip() {
-        return cusip;
-    }
-
-    public void setCusip(String cusip) {
-        this.cusip = cusip;
-    }
+    private String cusip;
+    public String getCusip() { return cusip; }
+    public void setCusip(String cusip) { this.cusip = cusip; }
 
     @Basic
     @Column(name = "stock")
-    public String getStock() {
-        return stock;
-    }
-
-    public void setStock(String stock) {
-        this.stock = stock;
-    }
+    private String stock;
+    public String getStock() { return stock; }
+    public void setStock(String stock) { this.stock = stock; }
 
     @Basic
     @Column(name = "position")
-    public double getPosition() {
-        return position;
-    }
-
-    public void setPosition(double position) {
-        this.position = position;
-    }
+    private double position;
+    public double getPosition() { return position; }
+    public void setPosition(double position) { this.position = position; }
 
     @Basic
     @Column(name = "numshares")
-    public int getNumshares() {
-        return numshares;
-    }
+    private int numshares;
+    public int getNumshares() { return numshares; }
+    public void setNumshares(int numshares) { this.numshares = numshares; }
 
-    public void setNumshares(int numshares) {
-        this.numshares = numshares;
-    }
+    @ManyToOne (optional = false)
+    @JoinColumn (name = "filingId", referencedColumnName = "filingId")
+    private Filing filing;
+    public Filing getFiling() { return filing; }
+    public void setFiling(Filing filing) { this.filing = filing; }
 
     @Override
     public boolean equals(Object o) {

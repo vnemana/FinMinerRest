@@ -6,6 +6,11 @@ public class FundFilter {
     private int fundId;
     private Date startDate;
     private Date endDate;
+    private int maxResults;
+
+    public FundFilter() {
+        maxResults = -1;
+    }
 
     public int getFundId() {
         return fundId;
@@ -30,4 +35,9 @@ public class FundFilter {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+    public int getMaxResults() { return maxResults; }
+
+    public void setMaxResults(int maxResults) { this.maxResults = maxResults; }
+
 }

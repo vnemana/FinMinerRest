@@ -1,4 +1,4 @@
-package controllers;
+package servlets;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 @WebServlet(name="hello", urlPatterns = "/")
-public class HelloServlet extends HttpServlet {
+public class LoadFundsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         FileReader homePageFileReader = new FileReader

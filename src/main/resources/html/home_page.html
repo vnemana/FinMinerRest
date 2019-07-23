@@ -1,31 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <style>
         table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
-            padding: 5px;
+            padding: 2px;
         }
     </style>
 </head>
-<body>
 
+
+<body>
 <p id="funds">Let AJAX get the funds.</p>
 <button type="button" onclick="loadFunds()">Load Funds</button>
+<p id="FundAnalysis">Anlaysis goes here</p>
 
-<script>
+<p id="piechart"></p>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    /*Load google charts*/
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    /*Draw the chart and set the chart values*/
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(
+            [["Stock","Percentage"],["VSTO",1475400],["JOE",26547898],["JEF",19500]]);
+
+        /*Optional; add a title and set the width and height of the chart */
+        var options = {'title':'My Average Day', 'width':550, 'height':400};
+
+        /*Display the chart inside the <div> element with id="piechart"*/
+        var chart = new
+        google.visualization.PieChart(document.getElementById("piechart"));
+        chart.draw(data, options);
+    }
+</script>
+
+
+<script type="text/javascript">
     function loadFunds() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var s = JSON.parse(this.responseText);
                 var html_result =
-                    "<table style='width:100%'><tr><th>FundId</th><th>FundName</th></tr>";
+                    "<table style='width:100%'><tr><th>FundId</th>" +
+                    "<th>FundName</th></tr>";
                 var i = 0;
                 while(i < s.length) {
                     html_result +=
-                        "<tr><td>"+s[i].fundId+"</td><td>"+s[i+1].fundName+"</td></tr>";
+                        "<tr><td>"+s[i].fundId+"</td><td>" +
+                        "<a href=\"#\" onclick='analyzeFund("+s[i].fundId+")'>"
+                        +s[i+1].fundName+"</td></tr>";
                     i = i+2;
                 }
                 html_result += "</tr></table>";
@@ -37,5 +65,32 @@
     }
 </script>
 
+<script>
+    function analyzeFund(fundNum) {
+        console.log ("In AnalyzeFund");
+        console.log(fundNum);
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.response);
+                console.log(JSON.parse(this.response));
+                var data =
+                    google.visualization.arrayToDataTable(JSON.parse(this.response));
+
+                /*Optional; add a title and set the width and height of the chart*/
+                var options = {'title':'Position Pie Chart', 'width':550,
+                    'height':400};
+
+                /*Display the chart inside the <div> element with id="piechart"*/
+                var chart = new
+                google.visualization.PieChart(document.getElementById("piechart"));
+                chart.draw(data, options);
+            }
+        };
+        xhttp.open("GET", "api/funds/analyze_fund?fundId=" + fundNum, true);
+        xhttp.send();
+    }
+</script>
 </body>
 </html>

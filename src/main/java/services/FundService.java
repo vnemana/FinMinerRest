@@ -25,7 +25,7 @@ public class FundService {
 
     public List<Filing> getFilingsForFund(int fund) {
         if (fund == 0) fund = 3;
-        Fund f = em.find(Fund.class, 3);
+        Fund f = em.find(Fund.class, fund);
         return (List<Filing>) f.getFilings();
     }
 
@@ -46,7 +46,8 @@ public class FundService {
                 whereClause + " order by fi.filingDate desc",
                 Filing.class);
         //query.setParameter("fundId", fundNum);
-        //query.setMaxResults(10);
+        if (fundFilter.getMaxResults() != -1)
+            query.setMaxResults(fundFilter.getMaxResults());
         return query.getResultList();
     }
 
