@@ -9,6 +9,7 @@ import services.HoldingService;
 import javax.inject.Inject;
 import javax.json.*;
 import javax.ws.rs.*;
+import java.util.HashMap;
 import java.util.List;
 
 @Path("/funds")
@@ -24,6 +25,7 @@ public class FundController {
     public JsonArray getFilingsFromFund() {
         JsonArrayBuilder builder = Json.createArrayBuilder();
         for (Fund f : fundService.getAllFunds()) {
+            System.out.println("Getting all the funds...");
             builder.add(Json.createObjectBuilder().add("fundId",
                     f.getFundId()));
             builder.add(Json.createObjectBuilder().add("fundName",
@@ -65,7 +67,7 @@ public class FundController {
     @Path("/analyze_fund")
     @GET
     @Produces ("application/json")
-    public JsonArray analyzeFund(@QueryParam("fundId") int fund) {
+    public JsonObject analyzeFund(@QueryParam("fundId") int fund) {
         //Get the latest filing
         FundFilter fundFilter = new FundFilter();
         fundFilter.setMaxResults(2);
@@ -74,41 +76,48 @@ public class FundController {
         Filing mostRecentFiling = latestFilings.get(0);
         Filing previousFiling = latestFilings.get(1);
 
+        HashMap<String,Holding> latestHoldidngMap = new HashMap<>();
+        HashMap<String,Holding> previousHoldidngMap = new HashMap<>();
+
+
         //Get all the holdings in that filing
         List<Holding> holdingsFromLatestFiling = holdingService
                 .getHoldingsForFiling(mostRecentFiling.getFilingId());
+        List<Holding> holdingsFromPreviousFiling = holdingService
+                .getHoldingsForFiling(previousFiling.getFilingId());
+        for (Holding p : holdingsFromPreviousFiling) {
+            previousHoldidngMap.put(p.getCusip(), p);
+        }
 
-        JsonArrayBuilder builder = Json.createArrayBuilder();
-        JsonArrayBuilder titleArray = Json.createArrayBuilder();
-        titleArray.add("Stock");
-        titleArray.add("Percentage");
-        builder.add(titleArray);
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+        JsonArrayBuilder pieBuilder = Json.createArrayBuilder();
+        JsonArrayBuilder tableBuilder = Json.createArrayBuilder();
+
+        JsonArrayBuilder pieTitleArray = Json.createArrayBuilder();
+        pieTitleArray.add("Stock");
+        pieTitleArray.add("Percentage");
+        pieBuilder.add(pieTitleArray);
 
         for (Holding h : holdingsFromLatestFiling) {
             JsonArrayBuilder lclArray = Json.createArrayBuilder();
             lclArray.add(h.getStock());
             lclArray.add(h.getPosition());
-            builder.add(lclArray);
+            pieBuilder.add(lclArray);
+
+            JsonArrayBuilder tblArray = Json.createArrayBuilder();
+            tblArray.add(h.getStock());
+            tblArray.add(h.getCusip());
+            tblArray.add(h.getNumshares());
+            tblArray.add(h.getPosition());
+            tableBuilder.add(tblArray);
+
+            latestHoldidngMap.put(h.getCusip(), h);
         }
 
-        return builder.build();
-        //create a Pie chart based on total market value
 
-        //Get previous filing
-        //Compare increases/decreases in position for each holding
-        //Sort by delta. (two tables - increases, decreases)
-//        String filingInfo = "<p> Latest Filing: " + mostRecentFiling
-//                .getFilingDate() + " ID: " + mostRecentFiling.getFilingId() +
-//                "<br> Prev Filing: " + previousFiling.getFilingDate() + " ID:" +
-//                previousFiling.getFilingId() + "<br></p>";
-//        for (int i=0; i < holdingsFromLatestFiling.size(); i++) {
-//            filingInfo += "stock: " + holdingsFromLatestFiling.get(i)
-//                    .getStock() + " numShares: " + holdingsFromLatestFiling
-//                    .get(i).getNumshares() + "<br>";
-//        }
-//        String html = "<html><body>Analysis:" + fund + "\n" +
-//                filingInfo + "</body></html>";
-//        latestFilings.clear();
-//        return html;
+
+        objectBuilder.add("TableData", tableBuilder.build());
+        objectBuilder.add("PieData", pieBuilder.build());
+        return objectBuilder.build();
     }
 }

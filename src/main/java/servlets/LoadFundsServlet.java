@@ -10,11 +10,13 @@ import java.io.IOException;
 
 @WebServlet(name="hello", urlPatterns = "/")
 public class LoadFundsServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String path = this.getServletContext().getRealPath("/");
+        String home_page_path = path + "WEB-INF/classes/html/home_page.html";
         FileReader homePageFileReader = new FileReader
-                ("/home/mahesh/code/FinMiner-2.0/FinMinerRest/src/main" +
-                        "/resources/html/home_page.html");
+                (home_page_path);
         BufferedReader homePageBuffReader = new BufferedReader
                 (homePageFileReader);
         String st;
