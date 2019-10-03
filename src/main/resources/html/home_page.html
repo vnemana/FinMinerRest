@@ -48,11 +48,18 @@
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Stock');
         data.addColumn('string', 'Cusip');
-        data.addColumn('number', 'Number of shares');
         data.addColumn('number', 'Position (in Millions)');
-        data.addRows([['Mike', 'MikeCusip', 1000, 100001]]);
+        data.addColumn('number', 'Number of shares');
+        data.addColumn('number', 'Delta');
+
+        data.addRows([['Mike', 'MikeCusip', 1000, 100001, 1]]);
         var table = new google.visualization.Table(document.getElementById('TableChart'));
         table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+        google.visualization.events.addListener(table, 'select', selectHandler);
+    }
+
+    function selectHandler(e) {
+        console.log('A table row was selected');
     }
 </script>
 
@@ -76,11 +83,19 @@
                 var tblData = new google.visualization.DataTable();
                 tblData.addColumn('string', 'Stock');
                 tblData.addColumn('string', 'Cusip');
-                tblData.addColumn('number', 'Number of shares');
                 tblData.addColumn('number', 'Position (in Millions)');
+                tblData.addColumn('number', 'Number of shares');
+                tblData.addColumn('number', 'Delta');
                 tblData.addRows(obj.TableData);
+
                 var table = new google.visualization.Table(document.getElementById('TableChart'));
                 table.draw(tblData, {showRowNumber: true, width: '100%', height: '100%'});
+                google.visualization.events.addListener(table, 'select', function(e) {
+                    console.log('A table row was selected' + e.toString());
+                    console.log(table.getSelection()[0].row);
+                    var row = table.getSelection()[0].row;
+                    console.log(tblData.getFormattedValue(row, 1));
+                });
             }
         };
         xhttp.open("GET", "api/funds/analyze_fund?fundId=" + fundNum, true);

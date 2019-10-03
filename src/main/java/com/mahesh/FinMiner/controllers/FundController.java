@@ -1,10 +1,10 @@
-package controllers;
+package com.mahesh.FinMiner.controllers;
 
-import models.Filing;
-import models.Fund;
-import models.Holding;
-import services.FundService;
-import services.HoldingService;
+import com.mahesh.FinMiner.models.Filing;
+import com.mahesh.FinMiner.models.Fund;
+import com.mahesh.FinMiner.models.Holding;
+import com.mahesh.FinMiner.services.FundService;
+import com.mahesh.FinMiner.services.HoldingService;
 
 import javax.inject.Inject;
 import javax.json.*;
@@ -76,7 +76,6 @@ public class FundController {
         Filing mostRecentFiling = latestFilings.get(0);
         Filing previousFiling = latestFilings.get(1);
 
-        HashMap<String,Holding> latestHoldidngMap = new HashMap<>();
         HashMap<String,Holding> previousHoldidngMap = new HashMap<>();
 
 
@@ -107,14 +106,17 @@ public class FundController {
             JsonArrayBuilder tblArray = Json.createArrayBuilder();
             tblArray.add(h.getStock());
             tblArray.add(h.getCusip());
-            tblArray.add(h.getNumshares());
             tblArray.add(h.getPosition());
+            tblArray.add(h.getNumshares());
+
+            int diff = h.getNumshares();
+            Holding previousHolding = previousHoldidngMap.get(h.getCusip());
+            if (previousHolding != null) {
+                diff = h.getNumshares() - previousHolding.getNumshares();
+            }
+            tblArray.add(diff);
             tableBuilder.add(tblArray);
-
-            latestHoldidngMap.put(h.getCusip(), h);
         }
-
-
 
         objectBuilder.add("TableData", tableBuilder.build());
         objectBuilder.add("PieData", pieBuilder.build());

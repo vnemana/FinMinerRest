@@ -9,9 +9,9 @@
              <persistence-unit name="FundReportsPersistence">
                  <jta-data-source>jdbc/MySQLFundReports</jta-data-source>
                  <class>models.Cusip</class>
-                 <class>models.Filing</class>
-                 <class>models.Fund</class>
-                 <class>models.Holding</class>
+                 <class>com.mahesh.FinMiner.models.Filing</class>
+                 <class>com.mahesh.FinMiner.models.Fund</class>
+                 <class>com.mahesh.FinMiner.models.Holding</class>
                  <properties>
                      <property name="eclipselink.jdbc.url"
                                value="jdbc:mysql://localhost:3306/FundReports"/>

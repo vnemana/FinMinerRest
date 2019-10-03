@@ -1,6 +1,6 @@
-package services;
+package com.mahesh.FinMiner.services;
 
-import models.Holding;
+import com.mahesh.FinMiner.models.Holding;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

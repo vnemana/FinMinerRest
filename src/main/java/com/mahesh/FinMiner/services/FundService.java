@@ -1,8 +1,8 @@
-package services;
+package com.mahesh.FinMiner.services;
 
-import controllers.FundFilter;
-import models.Filing;
-import models.Fund;
+import com.mahesh.FinMiner.controllers.FundFilter;
+import com.mahesh.FinMiner.models.Filing;
+import com.mahesh.FinMiner.models.Fund;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

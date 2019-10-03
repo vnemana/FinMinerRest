@@ -1,4 +1,4 @@
-package controllers;
+package com.mahesh.FinMiner.controllers;
 
 import javax.ws.rs.ApplicationPath;
 

@@ -1,4 +1,4 @@
-package servlets;
+package com.mahesh.FinMiner.servlets;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

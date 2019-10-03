@@ -1,4 +1,4 @@
-package models;
+package com.mahesh.FinMiner.models;
 
 import javax.persistence.*;
 
