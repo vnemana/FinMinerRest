@@ -1,7 +1,7 @@
-package controllers;
+package com.mahesh.FinMiner.controllers;
 
-import models.Filing;
-import services.FilingService;
+import com.mahesh.FinMiner.models.Filing;
+import com.mahesh.FinMiner.services.FilingService;
 
 import javax.inject.Inject;
 import javax.json.Json;

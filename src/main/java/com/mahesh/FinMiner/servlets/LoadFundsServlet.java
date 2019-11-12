@@ -1,4 +1,4 @@
-package servlets;
+package com.mahesh.FinMiner.servlets;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +10,7 @@ import java.io.IOException;
 
 @WebServlet(name="hello", urlPatterns = "/")
 public class LoadFundsServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String path = this.getServletContext().getRealPath("/");

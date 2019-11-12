@@ -1,4 +1,4 @@
-package controllers;
+package com.mahesh.FinMiner.controllers;
 
 import java.util.Date;
 

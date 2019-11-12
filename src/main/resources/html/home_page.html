@@ -29,7 +29,7 @@
             [["Stock","Percentage"],["VSTO",1475400],["JOE",26547898],["JEF",19500]]);
 
         /*Optional; add a title and set the width and height of the chart */
-        var options = {'title':'My Average Day', 'width':550, 'height':400};
+        var options = {'title':'My Average Day', 'width':550, 'height':4};
 
         /*Display the chart inside the <div> element with id="piechart"*/
         var chart = new
@@ -38,6 +38,70 @@
     }
 </script>
 
+<p id="TableChart"></p>
+<script type="text/javascript">
+    /*Load google charts*/
+    google.charts.load('current', {'packages':['table']});
+    google.charts.setOnLoadCallback(drawTable);
+
+    function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Stock');
+        data.addColumn('string', 'Cusip');
+        data.addColumn('number', 'Position (in Millions)');
+        data.addColumn('number', 'Number of shares');
+        data.addColumn('number', 'Delta');
+
+        data.addRows([['Mike', 'MikeCusip', 1000, 100001, 1]]);
+        var table = new google.visualization.Table(document.getElementById('TableChart'));
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+        google.visualization.events.addListener(table, 'select', selectHandler);
+    }
+
+    function selectHandler(e) {
+        console.log('A table row was selected');
+    }
+</script>
+
+<script>
+    function analyzeFund(fundNum) {
+        console.log ("In AnalyzeFund");
+        console.log(fundNum);
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var obj = JSON.parse(this.responseText);
+                var data = google.visualization.arrayToDataTable(obj.PieData);
+                /*Optional; add a title and set the width and height of the chart*/
+                var options = {'title':'Position Pie Chart', 'width':550, 'height':400};
+                /*Display the chart inside the <div> element with id="piechart"*/
+                var chart = new google.visualization.PieChart(document.getElementById("piechart"));
+                chart.draw(data, options);
+
+                console.log(obj.TableData);
+                var tblData = new google.visualization.DataTable();
+                tblData.addColumn('string', 'Stock');
+                tblData.addColumn('string', 'Cusip');
+                tblData.addColumn('number', 'Position (in Millions)');
+                tblData.addColumn('number', 'Number of shares');
+                tblData.addColumn('number', 'Delta');
+                tblData.addRows(obj.TableData);
+
+                var table = new google.visualization.Table(document.getElementById('TableChart'));
+                table.draw(tblData, {showRowNumber: true, width: '100%', height: '100%'});
+                google.visualization.events.addListener(table, 'select', function(e) {
+                    console.log('A table row was selected' + e.toString());
+                    console.log(table.getSelection()[0].row);
+                    var row = table.getSelection()[0].row;
+                    console.log(tblData.getFormattedValue(row, 1));
+                });
+            }
+        };
+        xhttp.open("GET", "api/funds/analyze_fund?fundId=" + fundNum, true);
+        xhttp.send();
+    }
+</script>
 
 <script type="text/javascript">
     function loadFunds() {
@@ -65,32 +129,5 @@
     }
 </script>
 
-<script>
-    function analyzeFund(fundNum) {
-        console.log ("In AnalyzeFund");
-        console.log(fundNum);
-
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.response);
-                console.log(JSON.parse(this.response));
-                var data =
-                    google.visualization.arrayToDataTable(JSON.parse(this.response));
-
-                /*Optional; add a title and set the width and height of the chart*/
-                var options = {'title':'Position Pie Chart', 'width':550,
-                    'height':400};
-
-                /*Display the chart inside the <div> element with id="piechart"*/
-                var chart = new
-                google.visualization.PieChart(document.getElementById("piechart"));
-                chart.draw(data, options);
-            }
-        };
-        xhttp.open("GET", "api/funds/analyze_fund?fundId=" + fundNum, true);
-        xhttp.send();
-    }
-</script>
 </body>
 </html>
