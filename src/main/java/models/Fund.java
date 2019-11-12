@@ -27,6 +27,17 @@ public class Fund {
         this.fundName = fundName;
     }
 
+    @Basic
+    @Column(name = "cik")
+    private String cik;
+    public String getCik() {
+        return cik;
+    }
+    public void setCik(String cik) {
+        this.cik = cik;
+    }
+
+
     @OneToMany (mappedBy = "fund", targetEntity = Filing.class)
     private Collection filings;
     public Collection getFilings() {
