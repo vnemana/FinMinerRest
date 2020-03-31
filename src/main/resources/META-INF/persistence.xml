@@ -8,13 +8,13 @@
 
              <persistence-unit name="FundReportsPersistence">
                  <jta-data-source>jdbc/MySQLFundReports</jta-data-source>
-                 <class>models.Cusip</class>
+                 <class>com.mahesh.FinMiner.models.Cusip</class>
                  <class>com.mahesh.FinMiner.models.Filing</class>
                  <class>com.mahesh.FinMiner.models.Fund</class>
                  <class>com.mahesh.FinMiner.models.Holding</class>
                  <properties>
                      <property name="eclipselink.jdbc.url"
-                               value="jdbc:mysql://localhost:3306/FundReports"/>
+                               value="jdbc:mysql://localhost:3306/FundReports?serverTimezone=US/Pacific"/>
                      <property name="eclipselink.jdbc.driver"
                                value="com.mysql.jdbc.Driver"/>
                  </properties>

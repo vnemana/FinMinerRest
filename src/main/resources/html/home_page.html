@@ -85,7 +85,8 @@
                 tblData.addColumn('string', 'Cusip');
                 tblData.addColumn('number', 'Position (in Millions)');
                 tblData.addColumn('number', 'Number of shares');
-                tblData.addColumn('number', 'Delta');
+                tblData.addColumn('number',
+                    'Delta (# of shares bought or sold)');
                 tblData.addRows(obj.TableData);
 
                 var table = new google.visualization.Table(document.getElementById('TableChart'));
